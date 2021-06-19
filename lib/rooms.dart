@@ -19,28 +19,28 @@ void getUserInformation() {
     name = getUserResponse('Enter your name');
 
     // get user's email address
-    emailAddress = getUserResponse('Enter your email address');
+    //emailAddress = getUserResponse('Enter your email address');
 
     // get user gender
-    gender = getUserResponse('Enter your gender');
+    //gender = getUserResponse('Enter your gender');
 
     // get user's country
-    country = getUserResponse('Enter your country');
+    //country = getUserResponse('Enter your country');
 
     // get user's favorite food
-    favoriteFood = getUserResponse('Enter your favorite food');
+    //favoriteFood = getUserResponse('Enter your favorite food');
 
     // get user's hobby
-    hobby = getUserResponse('Enter your hobby');
+    //hobby = getUserResponse('Enter your hobby');
 
     // get user's friends
-    friend = getUserResponse("Enter your friends' name");
+    //friend = getUserResponse("Enter your friends' name");
 
     // get user's favorite car
-    favoriteCar = getUserResponse('What is your favorite car');
+    //favoriteCar = getUserResponse('What is your favorite car');
 
     // get user's age
-    age = getUserAge();
+    //age = getUserAge();
 
     updateUserAccountBalance();
 
@@ -56,12 +56,12 @@ String getUserResponse(String question) {
 }
 
 /// returns a list of foods from a string of foods separated by space
-List<String> getFavoriteFoods(String favoriteFoodString) {
+/* List<String> getFavoriteFoods(String favoriteFoodString) {
   return favoriteFoodString.split(' ');
-}
+} */
 
 var retries = 3;
-int getUserAge() {
+/* int getUserAge() {
   stdout.write('Enter your age: \n');
   var response = stdin.readLineSync();
   int age;
@@ -79,7 +79,7 @@ int getUserAge() {
       return null;
     }
   }
-}
+} */
 
 void printResults() {
   print('\n');
@@ -122,10 +122,25 @@ void updateUserAccountBalance() {
 }
 
 void deposit() {
-  var depositAmount = getUserResponse('How much do you want to deposit?');
+  //var depositAmount = getUserResponse('How much do you want to deposit?');
   //TODO increase accountBalance by depositAmount
   // Make sure depositAmount is a valid integer
   // print new balance after depositing
+
+  stdout.write('How much do you want to deposit?: \n');
+  var response = stdin.readLineSync();
+  var depositAmount = int.parse(response);
+
+  try {
+    if (depositAmount <= 0) {
+      throw DepositException();
+    } else {
+      accountBalance = depositAmount + accountBalance;
+      print('The new balance is: $accountBalance');
+    }
+  } catch (e) {
+    print('You have entered an Invalid amount. Try Again!');
+  }
 }
 
 void withdraw() {
@@ -134,4 +149,41 @@ void withdraw() {
   // make sure withdrawAmount is a valid integer
   // make sure a user does not withdraw more than their accountBalance
   // print new balance
+
+  //var withdrawAmount = getUserResponse('How much do you want to withdraw?');
+
+  stdout.write('How much do you want to withdraw?: \n');
+  var response = stdin.readLineSync();
+  var withdrawAmount = int.parse(response);
+
+  try {
+    if (withdrawAmount <= 0) {
+      throw WithdrawLessAmountException();
+    } else if (withdrawAmount > accountBalance) {
+      throw WithdrawMorethanAmountException();
+    } else {
+      accountBalance = accountBalance - withdrawAmount;
+      print('The new balance is: $accountBalance');
+    }
+  } catch (e) {
+    print('You have entered an Invalid amount. Try Again!');
+  }
+}
+
+class DepositException implements Exception {
+  String errorMessage() {
+    return 'You cannot deposit amount less than 1';
+  }
+}
+
+class WithdrawLessAmountException implements Exception {
+  String errorMessage() {
+    return 'You have entered an Invalid amount. Try Again!';
+  }
+}
+
+class WithdrawMorethanAmountException implements Exception {
+  String errorMessage() {
+    return 'Insufficient Funds';
+  }
 }
