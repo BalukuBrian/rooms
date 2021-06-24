@@ -19,32 +19,32 @@ void getUserInformation() {
     name = getUserResponse('Enter your name');
 
     // get user's email address
-    emailAddress = getUserResponse('Enter your email address');
+    //emailAddress = getUserResponse('Enter your email address');
 
     // get user gender
-    gender = getUserResponse('Enter your gender');
+    //gender = getUserResponse('Enter your gender');
 
     // get user's country
-    country = getUserResponse('Enter your country');
+    //country = getUserResponse('Enter your country');
 
     // get user's favorite food
-    favoriteFood = getUserResponse('Enter your favorite food');
+    //favoriteFood = getUserResponse('Enter your favorite food');
 
     // get user's hobby
-    hobby = getUserResponse('Enter your hobby');
+    //hobby = getUserResponse('Enter your hobby');
 
     // get user's friends
-    friend = getUserResponse("Enter your friends' name");
+    //friend = getUserResponse("Enter your friends' name");
 
     // get user's favorite car
-    favoriteCar = getUserResponse('What is your favorite car');
+    //favoriteCar = getUserResponse('What is your favorite car');
 
     // get user's age
-    age = getUserAge();
+    //age = getUserAge();
 
     updateUserAccountBalance();
 
-    printResults();
+    //printResults();
 
     exit(0);
   }
@@ -121,17 +121,19 @@ void updateUserAccountBalance() {
   }
 }
 
+var tryAgains = 3;
 void deposit() {
   //var depositAmount = getUserResponse('How much do you want to deposit?');
   //TODO increase accountBalance by depositAmount
   // Make sure depositAmount is a valid integer
   // print new balance after depositing
 
-  stdout.write('How much do you want to deposit?: \n');
-  var response = stdin.readLineSync();
-  var depositAmount = int.parse(response);
+  var UserDepositAmount =
+      getUserResponse('How much do you want to deposit?: \n');
 
   try {
+    var depositAmount = int.parse(UserDepositAmount);
+
     if (depositAmount <= 0) {
       throw DepositException();
     } else {
@@ -139,7 +141,11 @@ void deposit() {
       print('The new balance is: $accountBalance');
     }
   } catch (e) {
-    print(e.errorMessage());
+    if (e is FormatException) {
+      print(e);
+    } else {
+      print(e.errorMessage());
+    }
   }
 }
 
@@ -150,11 +156,11 @@ void withdraw() {
   // make sure a user does not withdraw more than their accountBalance
   // print new balance
 
-  stdout.write('How much do you want to withdraw?: \n');
-  var response = stdin.readLineSync();
-  var withdrawAmount = int.parse(response);
+  var UserWithdrawAmount = getUserResponse('How much do you want to withdraw?');
 
   try {
+    var withdrawAmount = int.parse(UserWithdrawAmount);
+
     if (withdrawAmount <= 0) {
       throw WithdrawLessAmountException();
     } else if (withdrawAmount > accountBalance) {
@@ -164,7 +170,11 @@ void withdraw() {
       print('The new balance is: $accountBalance');
     }
   } catch (e) {
-    print(e.errorMessage());
+    if (e is FormatException) {
+      print(e);
+    } else {
+      print(e.errorMessage());
+    }
   }
 }
 
