@@ -12,6 +12,7 @@ String hobby;
 String friend;
 String favoriteCar;
 int age;
+var retries = 3;
 
 void getUserInformation() {
   while (true) {
@@ -19,32 +20,32 @@ void getUserInformation() {
     name = getUserResponse('Enter your name');
 
     // get user's email address
-    //emailAddress = getUserResponse('Enter your email address');
+    emailAddress = getUserResponse('Enter your email address');
 
     // get user gender
-    //gender = getUserResponse('Enter your gender');
+    gender = getUserResponse('Enter your gender');
 
     // get user's country
-    //country = getUserResponse('Enter your country');
+    country = getUserResponse('Enter your country');
 
     // get user's favorite food
-    //favoriteFood = getUserResponse('Enter your favorite food');
+    favoriteFood = getUserResponse('Enter your favorite food');
 
     // get user's hobby
-    //hobby = getUserResponse('Enter your hobby');
+    hobby = getUserResponse('Enter your hobby');
 
     // get user's friends
-    //friend = getUserResponse("Enter your friends' name");
+    friend = getUserResponse("Enter your friends' name");
 
     // get user's favorite car
-    //favoriteCar = getUserResponse('What is your favorite car');
+    favoriteCar = getUserResponse('What is your favorite car');
 
     // get user's age
-    //age = getUserAge();
+    age = getUserAge();
 
     updateUserAccountBalance();
 
-    //printResults();
+    printResults();
 
     exit(0);
   }
@@ -60,7 +61,6 @@ List<String> getFavoriteFoods(String favoriteFoodString) {
   return favoriteFoodString.split(' ');
 }
 
-var retries = 3;
 int getUserAge() {
   stdout.write('Enter your age: \n');
   var response = stdin.readLineSync();
@@ -71,11 +71,12 @@ int getUserAge() {
   } catch (e) {
     if (retries > 0) {
       retries -= 1;
-      print('Invalid age, you have $retries retries left');
+
+      print('Invalid age, you have $retries retries left \n');
       return getUserAge();
     } else {
       print(
-          'Invalid, you have used all your retries, your age wont be captured');
+          'Invalid, you have used all your retries, your age wont be captured\n');
       return null;
     }
   }
@@ -121,7 +122,6 @@ void updateUserAccountBalance() {
   }
 }
 
-var tryAgains = 3;
 void deposit() {
   //var depositAmount = getUserResponse('How much do you want to deposit?');
   //TODO increase accountBalance by depositAmount
@@ -138,13 +138,22 @@ void deposit() {
       throw DepositException();
     } else {
       accountBalance = depositAmount + accountBalance;
-      print('The new balance is: $accountBalance');
+      print('Your new balance is: $accountBalance');
     }
   } catch (e) {
     if (e is FormatException) {
       print(e);
     } else {
       print(e.errorMessage());
+    }
+
+    if (retries > 0) {
+      retries -= 1;
+      print('Invalid Try Again, \n You have $retries retries left\n');
+      deposit();
+    } else {
+      print(
+          'Invalid, you have used all your retries \n Your deposit amount was not be captured\n');
     }
   }
 }
@@ -156,7 +165,8 @@ void withdraw() {
   // make sure a user does not withdraw more than their accountBalance
   // print new balance
 
-  var UserWithdrawAmount = getUserResponse('How much do you want to withdraw?');
+  var UserWithdrawAmount =
+      getUserResponse('How much do you want to withdraw?\n');
 
   try {
     var withdrawAmount = int.parse(UserWithdrawAmount);
@@ -167,13 +177,22 @@ void withdraw() {
       throw WithdrawMorethanAmountException();
     } else {
       accountBalance = accountBalance - withdrawAmount;
-      print('The new balance is: $accountBalance');
+      print('Your new balance is: $accountBalance');
     }
   } catch (e) {
     if (e is FormatException) {
       print(e);
     } else {
       print(e.errorMessage());
+    }
+
+    if (retries > 0) {
+      retries -= 1;
+      print('Invalid Try Again,\nYou have $retries retries left \n');
+      withdraw();
+    } else {
+      print(
+          'Invalid, you have used all your retries,\nYour withdraw amount was not be captured\n');
     }
   }
 }
