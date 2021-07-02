@@ -155,8 +155,7 @@ void deposit() {
   } on ZeroDepositException {
     print('Can not add 0 as a deposit!\n');
   } catch (e) {
-      print('An error occured $e\n');
-    }
+    print('An error occured $e\n');
 
     if (retries > 0) {
       retries -= 1;
@@ -187,16 +186,14 @@ void withdraw() {
     } else if (withdrawAmount > accountBalance) {
       throw WithdrawMorethanAmountException();
     } else {
-      accountBalance = accountBalance - withdrawAmount;
+      accountBalance -= withdrawAmount;
       print('Your new balance is: $accountBalance');
     }
   } catch (e) {
     if (e is FormatException) {
       print(e);
-    } else if (e is DepositException) {
-      print(e.errorMessage());
     } else {
-      print(e.errorMessage());
+      print('An error occurred ${e.errorMessage()}');
     }
 
     if (retries > 0) {
