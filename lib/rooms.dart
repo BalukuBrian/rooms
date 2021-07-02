@@ -43,6 +43,8 @@ void getUserInformation() {
     // get user's age
     age = getUserAge();
 
+    print('');
+
     updateUserAccountBalance();
 
     var quit = getUserResponse(
@@ -134,23 +136,26 @@ void deposit() {
   // Make sure depositAmount is a valid integer
   // print new balance after depositing
 
-  var UserDepositAmount =
-      getUserResponse('How much do you want to deposit?: \n');
-
   try {
+    var UserDepositAmount =
+        getUserResponse('How much do you want to deposit?: \n');
+
     var depositAmount = int.parse(UserDepositAmount);
 
     if (depositAmount <= 0) {
-      throw DepositException();
+      throw NegativeDepositException();
+    } else if (depositAmount == 0) {
+      throw ZeroDepositException();
     } else {
-      accountBalance = depositAmount + accountBalance;
+      accountBalance += depositAmount;
       print('Your new balance is: $accountBalance');
     }
+  } on NegativeDepositException {
+    print('Can not add a negative deposit!\n');
+  } on ZeroDepositException {
+    print('Can not add 0 as a deposit!\n');
   } catch (e) {
-    if (e is FormatException) {
-      print(e);
-    } else {
-      print(e.errorMessage());
+      print('An error occured $e\n');
     }
 
     if (retries > 0) {
@@ -205,9 +210,15 @@ void withdraw() {
   }
 }
 
-class DepositException implements Exception {
+class NegativeDepositException implements Exception {
   String errorMessage() {
-    return 'You cannot deposit amount less than 1';
+    return 'You cannot deposit a negative amount ';
+  }
+}
+
+class ZeroDepositException implements Exception {
+  String errorMessage() {
+    return 'You cannot deposit amount 0';
   }
 }
 
