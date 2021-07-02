@@ -45,9 +45,15 @@ void getUserInformation() {
 
     updateUserAccountBalance();
 
-    printResults();
-
-    exit(0);
+    var quit = getUserResponse(
+        "We have reached the end of our program, enter 'q' or press CTRL+C to quit");
+    if (quit.toLowerCase() == 'q') {
+      printResults();
+      exit(0);
+    } else {
+      print('This is not one of the provided options');
+      print('');
+    }
   }
 }
 
@@ -182,6 +188,8 @@ void withdraw() {
   } catch (e) {
     if (e is FormatException) {
       print(e);
+    } else if (e is DepositException) {
+      print(e.errorMessage());
     } else {
       print(e.errorMessage());
     }
@@ -205,7 +213,7 @@ class DepositException implements Exception {
 
 class WithdrawLessAmountException implements Exception {
   String errorMessage() {
-    return 'You have entered an Invalid amount. Try Again!';
+    return 'You cannot withdraw less than 1. Try Again!';
   }
 }
 
