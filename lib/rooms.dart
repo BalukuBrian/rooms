@@ -156,15 +156,6 @@ void deposit() {
     print('Can not add 0 as a deposit!\n');
   } catch (e) {
     print('An error occured $e\n');
-
-    if (retries > 0) {
-      retries -= 1;
-      print('Invalid Try Again, \n You have $retries retries left\n');
-      deposit();
-    } else {
-      print(
-          'Invalid, you have used all your retries \n Your deposit amount was not be captured\n');
-    }
   }
 }
 
@@ -193,16 +184,7 @@ void withdraw() {
     if (e is FormatException) {
       print(e);
     } else {
-      print('An error occurred ${e.errorMessage()}');
-    }
-
-    if (retries > 0) {
-      retries -= 1;
-      print('Invalid Try Again,\nYou have $retries retries left \n');
-      withdraw();
-    } else {
-      print(
-          'Invalid, you have used all your retries,\nYour withdraw amount was not be captured\n');
+      print('An error occurred $e');
     }
   }
 }
